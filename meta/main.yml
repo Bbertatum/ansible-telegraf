@@ -1,0 +1,35 @@
+galaxy_info:
+  role_name: telegraf
+  author: Bertrand Cebador
+  description: Install and configures telegraf on Rhel
+  company: Sigilence Technologies
+  license: Apache-2.0
+  min_ansible_version: 2.5
+  platforms:
+   - name: EL
+     versions:
+       - 8
+       - 7
+   - name: Ubuntu
+     versions:
+       - bionic
+       - xenial
+   - name: Debian
+     versions:
+       - buster
+       - stretch
+
+  galaxy_tags:
+    - rhel
+    - debian
+    - ubuntu
+    - centos
+    - influxdb
+    - performance
+    - metrics
+    - collector
+    - icinga2
+    - telegraf
+    - monitoring
+
+dependencies: []

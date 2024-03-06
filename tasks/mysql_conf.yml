@@ -1,0 +1,9 @@
+---
+# Template specific MariaDB config
+- name: Template specific MariaDB config
+  template:
+    src: "mysql_input.conf.j2"
+    dest: "/etc/telegraf/telegraf.d/mysql.conf"
+  with_dict: "{{ server_yml['content'] | b64decode | from_yaml}}"
+  register: config_sql
+  notify: restart telegraf

@@ -1,0 +1,7 @@
+---
+- name: Template specific Haproxy config
+  template:
+    src: "haproxy_input.conf.j2"
+    dest: "/etc/telegraf/telegraf.d/haproxy.conf"
+  register: config_ha
+  notify: restart telegraf

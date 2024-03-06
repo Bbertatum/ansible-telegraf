@@ -1,0 +1,63 @@
+---
+
+- name: RedHat - Add InfluxDB repository
+  yum_repository:
+    name: InfluxDB-NF
+    description: InfluxDB Repository - RHEL \$releasever
+    baseurl: "{{ influxdb_yum_url }}"
+    gpgkey: "{{ influxdb_yum_key }}"
+    gpgcheck: yes
+
+- name: Install telegraf
+  package:
+    name: telegraf
+    state: present
+
+- name: template config
+  template:
+    src: "telegraf.conf.j2"
+    dest: "/etc/telegraf/telegraf.conf"
+  register: config
+  when: 
+  - codeclient != 20629
+  notify: restart telegraf
+
+- name: template config nf
+  template:
+    src: "telegraf-nf.conf.j2"
+    dest: "/etc/telegraf/telegraf.conf"
+  register: config
+  when: 
+  - codeclient == 20629
+  notify: restart telegraf
+
+- name: Copy config files
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/telegraf/telegraf.d/"
+  register: config_file
+  notify: restart telegraf
+  with_fileglob:
+   - '*.conf'
+
+- name: Populate service facts
+  service_facts:
+
+# Template specific MariaDB config
+- name: Template specific MariaDB config
+  include_tasks: "mysql_conf.yml"
+  when:
+    - ansible_facts.services['mysql.service'].status is defined
+    - ansible_facts.services['mysql.service'].status == "enabled"
+
+- name: Template specific HAproxy config
+  include_tasks: "haproxy_conf.yml"
+  when:
+    - ansible_facts.services['haproxy.service'].status is defined
+    - ansible_facts.services['haproxy.service'].status == "enabled"
+
+- name: Enable telegraf
+  service:
+    name: telegraf
+    enabled: yes
+    state: started
