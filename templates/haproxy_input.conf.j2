@@ -1,2 +1,2 @@
 [[inputs.haproxy]]
-  servers = ["http://admin:BRWTVydGNgol@{% for itf in interfaces.values() %}{% if "adminNF" in itf.zone %}{{ itf.ipaddress }}{% endif %}{% endfor -%}:9010/haproxy?stats"]
+  servers = ["http://admin:password@localhost:9010/haproxy?stats"]

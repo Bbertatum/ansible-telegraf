@@ -19,7 +19,6 @@ influxdb_yum_key: https://repos.influxdata.com/influxdata-archive_compat.key
 influxdb_apt_key: https://repos.influxdata.com/influxdata-archive_compat.key
 influxdb_server_ip: localhost
 
-
 Example Playbook
 ----------------
 
@@ -37,4 +36,4 @@ MIT
 Author Information
 ------------------
 
-Bertrand Cebador
+* March 2024 - Bertrand Cebador
